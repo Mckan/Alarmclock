@@ -1,0 +1,9 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+      xmlns:AlarmClock="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:title="@string/app_name"
+        android:id="@+id/action_add_new_alarm"
+        android:icon="@drawable/ic_action_new"
+        AlarmClock:showAsAction="always" />
+</menu>
