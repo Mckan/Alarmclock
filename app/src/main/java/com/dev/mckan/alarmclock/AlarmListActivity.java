@@ -2,12 +2,15 @@ package com.dev.mckan.alarmclock;
 
 import android.app.ListActivity;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
 
 
 public class AlarmListActivity extends ListActivity {
@@ -19,7 +22,16 @@ public class AlarmListActivity extends ListActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        mContext = this;
+
+        requestWindowFeature(Window.FEATURE_ACTION_BAR);
+
         setContentView(R.layout.activity_alarm_list);
+
+        mAdapter = new AlarmListAdapter(this, dbHelper.getAlarms());
+
+        setListAdapter(mAdapter);
     }
 
 
@@ -48,9 +60,6 @@ public class AlarmListActivity extends ListActivity {
         if (resultCode == RESULT_OK){
             mAdapter.setAlarms(dbHelper.getAlarms());
             mAdapter.notifyDataSetChanged();
-
-            mAdapter.setAlarms(dbHelper.getAlarms());
-            mAdapter.notifyDataSetChanged();
         }
     }
 
@@ -70,5 +79,28 @@ public class AlarmListActivity extends ListActivity {
         Intent intent = new Intent(this, AlarmInfoActivity.class);
         intent.putExtra("id", id);
         startActivityForResult(intent, 0);
+    }
+
+    public void deletAlarm(long id) {
+        final long alarmId = id;
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage("Please confirm").setTitle("Delete set?")
+        .setCancelable(true).setNegativeButton("Cancel", null)
+        .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                //Cancel Alarms
+                AlarmManagerHelper.cancelAlarms(mContext);
+                //Delete alarm from DB by id
+                dbHelper.deleteAlarm(alarmId);
+                //Refresh the list of the alarms in the adaptor
+                mAdapter.setAlarms(dbHelper.getAlarms());
+                //Notify the adapter the data has changed
+                mAdapter.notifyDataSetChanged();
+                //Set the alarms
+                AlarmManagerHelper.setAlarms(mContext);
+            }
+        }).show();
+
     }
 }
