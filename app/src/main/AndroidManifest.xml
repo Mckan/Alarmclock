@@ -1,9 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.dev.mckan.alarmclock" >
+    package="com.dev.mckan.alarmclock"
+    android:versionCode="1"
+    android:versionName="1.0">
 
+    <uses-sdk
+        android:minSdkVersion="19"
+        android:targetSdkVersion="25"/>
+
+    <uses-permission-sdk-23 android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+    <uses-permission-sdk-23 android:name="android.permission.WAKE_LOCK"/>
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
     <uses-permission android:name="android.permission.WAKE_LOCK"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
 
     <application
         android:allowBackup="true"
@@ -12,7 +21,7 @@
         android:theme="@style/AppTheme" >
 
         <activity
-            android:name=".AlarmListActivity"
+            android:name="com.dev.mckan.alarmclock.AlarmListActivity"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -20,14 +29,17 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <activity
-            android:name=".AlarmInfoActivity"
+            android:name="com.dev.mckan.alarmclock.AlarmInfoActivity"
             android:label="@string/title_activity_alarm_info" >
         </activity>
-        <activity android:name=".AlarmScreen" />
-        <service android:name=".AlarmService" android:enabled="true" />
 
-        <receiver android:name=".AlarmManagerHelper" >
+        <activity android:name="com.dev.mckan.alarmclock.AlarmScreen" />
+
+        <service android:name="com.dev.mckan.alarmclock.AlarmService" android:enabled="true" />
+
+        <receiver android:name="com.dev.mckan.alarmclock.AlarmManagerHelper" >
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>

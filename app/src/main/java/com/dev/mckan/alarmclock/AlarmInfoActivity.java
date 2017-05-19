@@ -1,16 +1,17 @@
 package com.dev.mckan.alarmclock;
 
 import android.content.Intent;
+import android.app.Activity;
 import android.media.RingtoneManager;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
 import android.widget.*;
 
 
-public class AlarmInfoActivity extends ActionBarActivity {
+public class AlarmInfoActivity extends Activity {
 
 private AlarmModel alarmDetails;
 private AlarmDBHelper dbHelper = new AlarmDBHelper(this);
@@ -32,8 +33,9 @@ private TextView txtToneSelection;
         super.onCreate(savedInstanceState);
 
         // Set title on actionbar
-        getSupportActionBar().setTitle("Create New Alarm");
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        requestWindowFeature(Window.FEATURE_ACTION_BAR);
+        getActionBar().setTitle("Create New Alarm");
+        getActionBar().setDisplayHomeAsUpEnabled(true);
         setContentView(R.layout.activity_details);
 
         // Link view to variable

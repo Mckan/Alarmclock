@@ -21,6 +21,7 @@ public class AlarmManagerHelper extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent){
+
         setAlarms(context);
     }
 
@@ -39,11 +40,13 @@ public class AlarmManagerHelper extends BroadcastReceiver {
                     calendar.set(Calendar.MINUTE, alarm.timeMinute);
                     calendar.set(Calendar.SECOND, 00);
 
+                    // Find next time to set
                     final int nowDay = Calendar.getInstance().get(Calendar.DAY_OF_WEEK);
                     final int nowHour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
                     final int nowMinute = Calendar.getInstance().get(Calendar.MINUTE);
                     boolean alarmSet = false;
 
+                    //First check if it's later in the week
                     for (int dayOfWeek = Calendar.SUNDAY; dayOfWeek <= Calendar.SATURDAY; ++dayOfWeek) {
                         if (alarm.getRepeatingDay(dayOfWeek - 1) && dayOfWeek >= nowDay &&
                                 !(dayOfWeek == nowDay && alarm.timeHour < nowHour) &&
@@ -59,6 +62,7 @@ public class AlarmManagerHelper extends BroadcastReceiver {
 
                     }
 
+                    //Else check if it's earlier in the week
                     if (!alarmSet) {
                         for (int dayOfWeek = Calendar.SUNDAY; dayOfWeek <= Calendar.SATURDAY; ++dayOfWeek) {
                             if (alarm.getRepeatingDay(dayOfWeek-1) && dayOfWeek <= nowDay && alarm.repeatWeekly) {

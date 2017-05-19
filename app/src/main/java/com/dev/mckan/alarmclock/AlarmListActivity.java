@@ -81,7 +81,7 @@ public class AlarmListActivity extends ListActivity {
         startActivityForResult(intent, 0);
     }
 
-    public void deletAlarm(long id) {
+    public void deleteAlarm(long id) {
         final long alarmId = id;
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setMessage("Please confirm").setTitle("Delete set?")

@@ -77,20 +77,29 @@ public class AlarmListAdapter extends BaseAdapter {
         updateTextColor((TextView) view.findViewById(R.id.alarm_item_saturday), model.getRepeatingDay(AlarmModel.SATURDAY));
 
         ToggleButton btnToggle = (ToggleButton) view.findViewById(R.id.alarm_item_toggle);
+        btnToggle.setChecked(model.isEnabled);
         btnToggle.setTag(Long.valueOf(model.id));
+
         btnToggle.setOnCheckedChangeListener(new OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 ((AlarmListActivity) mContext).setAlarmEnabled(((Long) buttonView.getTag()).longValue(), isChecked);
             }
         });
-        btnToggle.setChecked(model.isEnabled);
 
         view.setTag(Long.valueOf(model.id));
         view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 ((AlarmListActivity) mContext).startAlarmInfoActivity(((Long) v.getTag()).longValue());
+            }
+        });
+
+        view.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                ((AlarmListActivity) mContext).deleteAlarm(((Long) v.getTag()).longValue());
+                return true;
             }
         });
 
