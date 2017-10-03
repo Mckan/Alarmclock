@@ -4,16 +4,17 @@ import android.app.ListActivity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.view.Window;
 
 
-public class AlarmListActivity extends ListActivity {
+public class AlarmListActivity extends AppCompatActivity {
 
     private AlarmListAdapter mAdapter;
     private AlarmDBHelper dbHelper = new AlarmDBHelper(this);
@@ -22,18 +23,16 @@ public class AlarmListActivity extends ListActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        mContext = this;
-
-        requestWindowFeature(Window.FEATURE_ACTION_BAR);
-
         setContentView(R.layout.activity_alarm_list);
 
+        mContext = this;
         mAdapter = new AlarmListAdapter(this, dbHelper.getAlarms());
 
-        setListAdapter(mAdapter);
-    }
+        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.list);
+        recyclerView.setAdapter(mAdapter);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -45,11 +44,9 @@ public class AlarmListActivity extends ListActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-
         if (id == R.id.action_add_new_alarm) {
             startAlarmInfoActivity(-1);
         }
-
         return super.onOptionsItemSelected(item);
     }
 
